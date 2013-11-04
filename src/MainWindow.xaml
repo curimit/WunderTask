@@ -1,8 +1,38 @@
 ﻿<Window x:Class="WunderTask.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="MainWindow" Height="350" Width="525">
-    <Grid>
-        
-    </Grid>
+        Title="MainWindow" Height="500" Width="800">
+    <DockPanel>
+        <ListBox Width="200" DockPanel.Dock="Left" Background="#EAEAEA">
+            <StackPanel Orientation="Horizontal" Height="30">
+                <Image Source="images\inbox.png" Width="20" Height="20"></Image>
+                <TextBlock Margin="10,0,0,0" Text="收件箱" FontSize="16" Height="20" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Height="30">
+                <Image Source="images\align_just.png" Width="20" Height="20"></Image>
+                <TextBlock Margin="10,0,0,0" Text="重要且紧急" FontSize="16" Height="20" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Height="30">
+                <Image Source="images\align_just.png" Width="20" Height="20"></Image>
+                <TextBlock Margin="10,0,0,0" Text="重要不紧急" FontSize="16" Height="20" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Height="30">
+                <Image Source="images\align_just.png" Width="20" Height="20"></Image>
+                <TextBlock Margin="10,0,0,0" Text="重要但不紧急" FontSize="16" Height="20" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Height="30">
+                <Image Source="images\align_just.png" Width="20" Height="20"></Image>
+                <TextBlock Margin="10,0,0,0" Text="不重要也不紧急" FontSize="16" Height="20" />
+            </StackPanel>
+        </ListBox>
+        <Canvas>
+            <Canvas.Background>
+                <VisualBrush TileMode="Tile"  Viewport="0,0,10,10" ViewportUnits="Absolute">
+                    <VisualBrush.Visual>
+                        <Image Source="images\background.jpg"/>
+                    </VisualBrush.Visual>
+                </VisualBrush>
+            </Canvas.Background>
+        </Canvas>
+    </DockPanel>
 </Window>
