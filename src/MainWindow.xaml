@@ -1,13 +1,22 @@
 ﻿<Window x:Class="WunderTask.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="WunderTask"
+        xmlns:local="clr-namespace:WunderTask"
+        xmlns:clr="clr-namespace:System;assembly=mscorlib"
+        xmlns:my="clr-namespace:WunderTask.Component"
         WindowStyle="None"
+        Name="MyWindow"
+        DataContext="{Binding ElementName=MyWindow, Path=.}"
+        Title="{Binding Path=WindowTitle}"
         AllowsTransparency="True"
         Background="Transparent"
         ResizeMode="CanResizeWithGrip"
         Height="600"
         Width="960">
+    <Window.Resources>
+        <local:TitleConverter x:Key="TitleConverter" />
+        <clr:Double x:Key="x:SideBarWidth">250</clr:Double>
+    </Window.Resources>
     <Border CornerRadius="5" BorderThickness="1" BorderBrush="Gray" Background="Transparent">
         <DockPanel Background="Transparent">
             <Border DockPanel.Dock="Top"
@@ -22,33 +31,28 @@
                         <GradientStop Color="#C1C1C1" Offset="1" />
                     </LinearGradientBrush>
                 </Border.Background>
-                <TextBlock Foreground="#888" FontFamily="Verdana"  HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18">
-                    <Bold>WunderTask</Bold>
+                <TextBlock Foreground="#888" FontFamily="Verdana"  HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" MouseDown="TextBlock_MouseDown">
+                    <Bold><TextBlock Text="{Binding Path=WindowTitle, Converter={StaticResource TitleConverter}}"/></Bold>
                 </TextBlock>
             </Border>
             <DockPanel DockPanel.Dock="Bottom" Background="Transparent">
-                <Border Width="250" DockPanel.Dock="Left" Background="#EAEAEA" CornerRadius="0,0,0,5">
-                    <StackPanel Background="Transparent" Margin="10,0,0,0">
-                        <StackPanel Orientation="Horizontal" Height="30">
+                <Border Width="{StaticResource x:SideBarWidth}" DockPanel.Dock="Left" Background="#EAEAEA" CornerRadius="0,0,0,5">
+                    <StackPanel Background="Transparent">
+                        <StackPanel Orientation="Horizontal" Height="30" Margin="16,0,0,0" >
                             <Image Source="Images\inbox.png" Width="20" VerticalAlignment="Center"></Image>
                             <TextBlock Margin="12,0,0,0" Text="Inbox" VerticalAlignment="Center" FontSize="14"/>
                         </StackPanel>
-                        <StackPanel Orientation="Horizontal" Height="30">
-                            <Image Source="Images\align_just.png" Width="20" VerticalAlignment="Center"></Image>
-                            <TextBlock Margin="12,0,0,0" Text="List1" FontSize="14" VerticalAlignment="Center" />
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Height="30">
-                            <Image Source="Images\align_just.png" Width="20" VerticalAlignment="Center"></Image>
-                            <TextBlock Margin="12,0,0,0" Text="List2" FontSize="14" VerticalAlignment="Center" />
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Height="30">
-                            <Image Source="Images\align_just.png" Width="20" VerticalAlignment="Center"></Image>
-                            <TextBlock Margin="12,0,0,0" Text="List3" FontSize="14" VerticalAlignment="Center" />
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Height="30">
-                            <Image Source="Images\align_just.png" Width="20" VerticalAlignment="Center"></Image>
-                            <TextBlock Margin="12,0,0,0" Text="List4" FontSize="14" VerticalAlignment="Center" />
-                        </StackPanel>
+                        
+                        <ListBox Background="Transparent"
+                                 BorderThickness="0"
+                                 HorizontalContentAlignment="Stretch"
+                                 Name="TaskListBox"
+                                 SelectionChanged="TaskListBox_SelectionChanged"
+                                 >
+                            <my:MyTaskList Text="List1" />
+                            <my:MyTaskList Text="List2" />
+                            <my:MyTaskList Text="List3" />
+                        </ListBox>
                     </StackPanel>
                 </Border>
                 <Grid>
@@ -61,29 +65,18 @@
                     </Grid.Background>
                     <StackPanel Margin="10" Background="Transparent">
 
-                        <Border Height="32" CornerRadius="3" Background="#EEEEEE" Padding="5" BorderThickness="1">
-                            <TextBox Text="在此处添加一个任务" Height="20" FontSize="18" Foreground="Gray" Background="Transparent"  VerticalAlignment="Center" BorderThickness="0"/>
+                        <Border Height="32" CornerRadius="3" Background="#EEEEEE" Padding="5" Margin="0,0,0,10" BorderThickness="1">
+                            <TextBox Text="在此处添加一个任务" FontSize="18" Foreground="Gray" Background="Transparent"  VerticalAlignment="Center" BorderThickness="0"/>
                         </Border>
 
-                        <StackPanel Background="Transparent" Margin="0,5,0,0">
-                            <Border Height="32">
-                                <Border Height="30" CornerRadius="3" Background="#EEEEEE" BorderThickness="1" Padding="5" VerticalAlignment="Center">
-                                    <StackPanel Orientation="Horizontal" >
-                                        <CheckBox VerticalAlignment="Center" />
-                                        <TextBlock Margin="10,0,0,0" Text="任务一：去吃饭" FontSize="14" VerticalAlignment="Center" />
-                                    </StackPanel>
-                                </Border>
-                            </Border>
-
-                            <Border Height="32">
-                                <Border Height="30" CornerRadius="3" Background="#EEEEEE" BorderThickness="1" Padding="5" VerticalAlignment="Center">
-                                    <StackPanel Orientation="Horizontal" >
-                                        <CheckBox VerticalAlignment="Center" />
-                                        <TextBlock Margin="10,0,0,0" Text="任务二：打扫卫生" FontSize="14" VerticalAlignment="Center" />
-                                    </StackPanel>
-                                </Border>
-                            </Border>
-                        </StackPanel>
+                        <ListBox Background="Transparent"
+                                 HorizontalContentAlignment="Stretch"
+                                 BorderThickness="0"
+                                 Name="TasksBox"
+                                 >
+                            <my:MyTaskItem Text="任务一：洗衣服" IsChecked="true" />
+                            <my:MyTaskItem Text="任务二：打扫卫生" IsChecked="false" />
+                        </ListBox>
                     </StackPanel>
                 </Grid>
             </DockPanel>
